@@ -1,31 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import { getRoversImages } from '../../api/api';
-
+import { Grid } from '@mui/material';
+import nasaApi from '../../api/api';
 
 function Home() {
-
-  const [querys, setQuerys] = useState({page: 1, rover: 'curiosity'})
-  const [imagesRovers, setImagesRovers] = useState([])
+  const [querys, setQuerys] = useState({
+    page: 1,
+    rover: 'curiosity',
+    sol: 1000,
+  });
+  const [imagesRovers, setImagesRovers] = useState([]);
 
   const getImages = async () => {
-    const images = await getRoversImages(querys)
-    console.log(images.data)
-    // setImagesRovers(images.data.photos)
-  }
+    const images = await nasaApi.getRoversImages(querys);
+    console.log(images.data.photos);
+    setImagesRovers(images.data.photos);
+  };
 
   useEffect(() => {
-    getImages()
-  }, [querys])
+    getImages();
+  }, [querys]);
 
   return (
-    <div>
-      {
-        // imagesRovers.length > 0 &&
-        // imagesRovers.map(image => <img src={image}/>)
-      }
-    </div>
+    <Grid container spacing={2}>
+      {imagesRovers.length > 0 &&
+        imagesRovers.map((image) => (
+          <Grid item xs={12} md={2} key={image.id}>
+            <img
+              src={`${image.img_src}?w=164&h=164&fit=crop&auto=format`}
+              srcSet={`${image.img_src}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+              alt={image.rover.name}
+              loading="lazy"
+            />
+          </Grid>
+        ))}
+    </Grid>
   );
-
 }
 
 export default Home;

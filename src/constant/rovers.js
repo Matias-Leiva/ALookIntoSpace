@@ -1,4 +1,4 @@
-export const rovers = [
+export const roversList = [
     {
         name: 'Curiosity',
         cameras: ['FHAZ', 'RHAZ', 'MAST', 'CHEMCAM', 'MAHLI', 'MARDI', 'NAVCAM'],

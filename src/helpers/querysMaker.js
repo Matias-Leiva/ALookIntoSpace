@@ -1,7 +1,7 @@
 export default function (querys) {
-    const querysString = '';
+    let querysString = '';
     Object.entries(querys).map(([key, value]) => {
-            querysString += `&${key}=${value}`
+        value === '' ? false : querysString += `&${key}=${String(value)}`
     })
     return querysString;
 }

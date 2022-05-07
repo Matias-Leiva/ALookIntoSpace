@@ -5,16 +5,21 @@ import AdapterMoment from '@mui/lab/AdapterMoment';
 import moment from 'moment';
 
 import nasaApi from '../../api/api';
-import { rovers, cameras } from '../../constant/rovers';
+import { roversList, cameras } from '../../constant/rovers';
+import { useDispatch, useSelector } from 'react-redux';
+import { getRoversImages } from '../../redux/actions';
 
 const Rovers = () => {
+
+    const dispatch = useDispatch();
+
+    const rovers = useSelector(state => state.rovers)
 
     const [querys, setQuerys] = useState({
         page: 1,
         rover: 'curiosity',
         sol: 1,
         earth_date: '',
-        
     });
     const [imagesRovers, setImagesRovers] = useState([]);
     const [roverCameras, setRoverCameras] = useState([]);
@@ -31,13 +36,14 @@ const Rovers = () => {
     }
 
     useEffect(() => {
-        getImages();
-    }, [querys]);
+        dispatch(getRoversImages())
+        // getImages();
+    }, []);
 
     const handleChange = (event, key) => {
         setQuerys(querys => ({ ...querys, [key]: event.target.value }));
         if (key == 'rover') {
-            setRoverCameras(rovers.find(rover => rover.name.toLocaleLowerCase() == event.target.value))
+            setRoverCameras(roversList.find(rover => rover.name.toLocaleLowerCase() == event.target.value))
         }
     };
 
@@ -58,7 +64,7 @@ const Rovers = () => {
                         onChange={(e) => handleChange(e, 'rover')}
                     >
                         {
-                            rovers.map(rover => <MenuItem key={rover.name} value={rover.name.toLocaleLowerCase()}>{rover.name}</MenuItem>)
+                            roversList.map(rover => <MenuItem key={rover.name} value={rover.name.toLocaleLowerCase()}>{rover.name}</MenuItem>)
                         }
                     </Select>
                 </FormControl>
@@ -95,8 +101,14 @@ const Rovers = () => {
                 </FormControl>
             </Box>
             <Box sx={{ width: '100%', minHeight: '100%' }}>
-                <ImageList variant="masonry" cols={3} gap={8}>
-                    {imagesRovers.map((image) => (
+                {
+                    rovers.loading ?
+                    <div>:\</div>
+                    :
+                    rovers.images.lenght > 0
+                    ?
+                    <ImageList variant="masonry" cols={3} gap={8}>
+                    {rovers.images.map((image) => (
                         <ImageListItem key={image.id}>
                             <img
                                 src={`${image.img_src}?w=248&fit=crop&auto=format`}
@@ -106,7 +118,11 @@ const Rovers = () => {
                             />
                         </ImageListItem>
                     ))}
-                </ImageList>
+                    </ImageList>
+                    :
+                    <div>:-</div>
+                }
+                
             </Box>
             <Pagination
                 page={querys.page}

@@ -7,11 +7,9 @@ const instance = axios.create({
 });
 
 export default {
-  getRoversImages(querys) {
+  getRoversImages(rover, querys) {
     return instance.get(
-      `/rovers/${querys.rover}/photos?&page=${querys.page}&api_key=${apiKey}${querys.earth_date ? `&earth_date=${querys.earth_date}` : ''
-      }${querys.sol ? `&sol=${querys.sol}` : ''}${querys.camera ? `&camera=${querys.camera}` : ''
-      }`,
+      `/rovers/${rover}/photos?&api_key=${apiKey}${querys}`,
     );
   },
 };

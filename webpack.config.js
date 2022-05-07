@@ -6,9 +6,17 @@ module.exports = {
   entry: path.join(__dirname, 'src', 'index.js'),
   output: {
     path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
+    publicPath: '/',
+  },
+  devServer: {
+    historyApiFallback: true
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['*', '.js', '.jsx', '.json'],
+    modules: [path.resolve(process.cwd(), 'src'), 'node_modules'],
+    symlinks: false,
+    cacheWithContext: false
   },
   module: {
     rules: [
@@ -36,7 +44,7 @@ module.exports = {
       },
       {
         test: /\.(png|jp(e*)g|svg|gif)$/,
-        use: ['file-loader'],
+        use: ['file-loader', 'url-loader'],
       },
     ],
   },

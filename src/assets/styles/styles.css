@@ -19,3 +19,8 @@
         -moz-background-size: cover;
         -o-background-size: cover;
 }
+
+.rover_img{
+    width: 100%;
+    height: auto;
+}

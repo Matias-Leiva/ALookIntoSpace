@@ -1,14 +1,23 @@
-import React , { useEffect, useState } from 'react';
-import { Grid } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Container, FormControl, ImageList, ImageListItem, InputLabel, MenuItem, Pagination, Select, TextField, Box } from '@mui/material';
+import { DatePicker, LocalizationProvider } from '@mui/lab';
+import AdapterMoment from '@mui/lab/AdapterMoment';
+import moment from 'moment';
+
 import nasaApi from '../../api/api';
+import { rovers, cameras } from '../../constant/rovers';
 
 const Rovers = () => {
+
     const [querys, setQuerys] = useState({
         page: 1,
         rover: 'curiosity',
-        sol: 1000,
+        sol: 1,
+        earth_date: '',
+        
     });
     const [imagesRovers, setImagesRovers] = useState([]);
+    const [roverCameras, setRoverCameras] = useState([]);
 
     const getImages = async () => {
         const images = await nasaApi.getRoversImages(querys);
@@ -16,24 +25,96 @@ const Rovers = () => {
         setImagesRovers(images.data.photos);
     };
 
+    const handleChangePage = (event, newPage) => {
+        console.log(event)
+        setQuerys(querys => ({ ...querys, page: newPage }));
+    }
+
     useEffect(() => {
         getImages();
     }, [querys]);
 
+    const handleChange = (event, key) => {
+        setQuerys(querys => ({ ...querys, [key]: event.target.value }));
+        if (key == 'rover') {
+            setRoverCameras(rovers.find(rover => rover.name.toLocaleLowerCase() == event.target.value))
+        }
+    };
+
+    const handleDateChange = (event, key) => {
+        setQuerys(querys => ({ ...querys, [key]:  moment(event).format('YYYY-MM-DD')}));
+    };
+
     return (
-        <Grid container spacing={2}>
-            {imagesRovers.length > 0 &&
-                imagesRovers.map((image) => (
-                    <Grid item xs={12} md={2} key={image.id}>
-                        <img
-                            src={`${image.img_src}?w=164&h=164&fit=crop&auto=format`}
-                            srcSet={`${image.img_src}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                            alt={image.rover.name}
-                            loading="lazy"
+        <Container>
+            <Box >
+                <FormControl >
+                    <InputLabel id="rover">Select a Rover</InputLabel>
+                    <Select
+                        labelId="rover"
+                        id="select_rover"
+                        value={querys.rover}
+                        label="Rover"
+                        onChange={(e) => handleChange(e, 'rover')}
+                    >
+                        {
+                            rovers.map(rover => <MenuItem key={rover.name} value={rover.name.toLocaleLowerCase()}>{rover.name}</MenuItem>)
+                        }
+                    </Select>
+                </FormControl>
+                {
+                    roverCameras?.cameras &&
+                    <FormControl >
+                        <InputLabel id="camera">Select a Rover</InputLabel>
+                        <Select
+                            labelId="camera"
+                            id="select_camera"
+                            value={querys.cameras}
+                            label="Camera"
+                            onChange={(e) => handleChange(e, 'camera')}
+                        >
+                            {
+                                roverCameras.cameras.map(camera => <MenuItem key={camera} value={camera}>{cameras[camera]}</MenuItem>)
+                            }
+                        </Select>
+                    </FormControl>
+                }
+                <TextField id="sol" label="Sol" variant="outlined" type="number" onChange={(e) => handleChange(e, 'sol')}/>
+                <FormControl sx={{ m: 1, width: "100%" }} variant="standard">
+                    <LocalizationProvider dateAdapter={AdapterMoment}>
+                        <DatePicker
+                            mask="____-__-__"
+                            orientation="portrait"
+                            label="Earth Date"
+                            inputFormat="YYYY-MM-DD"
+                            value={querys.earth_date}
+                            onChange={(e) => handleDateChange(e, 'earth_date')}
+                            renderInput={(params) => <TextField variant="standard" {...params} />}
                         />
-                    </Grid>
-                ))}
-        </Grid>
+                    </LocalizationProvider>
+                </FormControl>
+            </Box>
+            <Box sx={{ width: '100%', minHeight: '100%' }}>
+                <ImageList variant="masonry" cols={3} gap={8}>
+                    {imagesRovers.map((image) => (
+                        <ImageListItem key={image.id}>
+                            <img
+                                src={`${image.img_src}?w=248&fit=crop&auto=format`}
+                                srcSet={`${image.img_src}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                                alt={image.rover.name}
+                                loading="lazy"
+                            />
+                        </ImageListItem>
+                    ))}
+                </ImageList>
+            </Box>
+            <Pagination
+                page={querys.page}
+                onChange={handleChangePage}
+                count={26}
+            />
+        </Container>
+
     );
 }
 

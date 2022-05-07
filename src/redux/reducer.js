@@ -5,6 +5,7 @@ const initialState = {
     loading: false,
     images: [],
     rover: 'curiosity',
+    cameras: ['FHAZ', 'RHAZ', 'MAST', 'CHEMCAM', 'MAHLI', 'MARDI', 'NAVCAM'],
     querys: {
         camera: '',
         sol: '',
@@ -25,7 +26,8 @@ function roversReducer(state = initialState, action) {
             return {
                 ...state,
                 loading: false,
-                rover: action.payload,
+                rover: action.payload.name,
+                cameras: action.payload.camaras,
                 querys: initialState.querys
             }
         case types.SET_IMAGES:

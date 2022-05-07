@@ -13,7 +13,7 @@ export const roversList = [
     }
 ]
 
-export const cameras = {
+export const camerasNames = {
     FHAZ: 'Front Hazard Avoidance Camera',
     RHAZ: 'Rear Hazard Avoidance Camera',
     MAST: 'Mast Camera',

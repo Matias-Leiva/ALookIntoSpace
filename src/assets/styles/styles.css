@@ -2,4 +2,20 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
+.box_home {
+    background: url('../img/home-background.jpg');
+}
+
+.not_found {
+        background-image: url('../img/404.png');
+        height: 100vh;
+        background-position: center;
+        background-size: cover;
+      
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
 }

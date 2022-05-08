@@ -4,7 +4,7 @@ import moment from 'moment'
 const initialState = {
     loading: false,
     images: [],
-    rover: 'curiosity',
+    rover: 'Curiosity',
     cameras: ['FHAZ', 'RHAZ', 'MAST', 'CHEMCAM', 'MAHLI', 'MARDI', 'NAVCAM'],
     querys: {
         camera: '',
@@ -27,7 +27,7 @@ function roversReducer(state = initialState, action) {
                 ...state,
                 loading: false,
                 rover: action.payload.name,
-                cameras: action.payload.camaras,
+                cameras: action.payload.cameras,
                 querys: initialState.querys
             }
         case types.SET_IMAGES:

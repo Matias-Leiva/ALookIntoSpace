@@ -8,7 +8,7 @@ export const getRoversImages = () => {
         try {
             const {rover, querys} = getState().rovers;
             const querysEndpoint = querysMaker(querys);
-            const roverImages = await nasaApi.getRoversImages(rover, querysEndpoint)
+            const roverImages = await nasaApi.getRoversImages(rover.toLowerCase(), querysEndpoint)
             dispatch(setImages(roverImages.data.photos));
         } catch (error) {
             dispatch(setError(error.message))
@@ -20,7 +20,7 @@ const setLoading = payload => ({type: types.SET_LOADING, payload})
 const setError = payload => ({type: types.SET_ERROR, payload})
 const setImages = payload => ({type: types.SET_IMAGES, payload})
 
-export const setRover = payload => ({type: types.SET_LOADING, payload})
+export const setRover = payload => ({type: types.SET_ROVER, payload})
 export const setPage = payload => ({type: types.SET_PAGE, payload})
 export const setQuerys = payload => ({type: types.SET_QUERYS, payload})
 

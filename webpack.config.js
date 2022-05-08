@@ -3,14 +3,18 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const dotenv = require('dotenv-webpack');
 
 module.exports = {
-  entry: path.join(__dirname, 'src', 'index.js'),
+  entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
     publicPath: '/',
   },
   devServer: {
-    historyApiFallback: true
+    historyApiFallback: true,
+    static: {
+      directory: path.join(__dirname, "dist"),
+    },
+    port: 3000,
   },
   resolve: {
     extensions: ['*', '.js', '.jsx', '.json'],
@@ -44,7 +48,7 @@ module.exports = {
       },
       {
         test: /\.(png|jp(e*)g|svg|gif)$/,
-        use: ['file-loader', 'url-loader'],
+        type: "asset/resource",
       },
     ],
   },

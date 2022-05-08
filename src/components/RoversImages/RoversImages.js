@@ -4,8 +4,16 @@ import { NewtonsCradle } from '@uiball/loaders'
 import { ImageList, ImageListItem } from '@mui/material'
 
 const RoversImages = ({rovers}) => {
+
+    const width = window.innerWidth;
+
+    const props = {
+        cols: width < 900 ? 1 : width < 1200 ? 2 : 3,
+        gap: 8
+    }
+
     return (
-        <Box sx={{ width: '100%', minHeight: '70vh', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
+        <Box className='box_rovers_images'>
             {
                 rovers.loading ?
                     <NewtonsCradle
@@ -16,7 +24,7 @@ const RoversImages = ({rovers}) => {
                     :
                     rovers.images.length > 0
                         ?
-                        <ImageList variant="masonry" cols={3} gap={8}>
+                        <ImageList variant="woven" {...props}>
                             {rovers.images.map((image) => (
                                 <ImageListItem key={image.id}>
                                     <img
@@ -29,7 +37,10 @@ const RoversImages = ({rovers}) => {
                             ))}
                         </ImageList>
                         :
-                        <img src={require('../../assets/img/backgorund-02.jpg')}/>
+                        <div className='div_not_image'>
+                            <img src={require('../../assets/img/backgorund-02.jpg')} className="not_image_found"/>
+                            <p className='not_images_text'>No Photos Found</p>
+                        </div>
             }
         </Box>
     )

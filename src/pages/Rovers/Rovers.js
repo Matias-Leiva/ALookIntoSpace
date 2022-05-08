@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Stack } from '@mui/material';
+import { Container, Paper, Stack } from '@mui/material';
 
 import { getRoversImages } from '../../redux/actions';
 import ImageSearch from '../../components/ImagesSearch/ImageSearch';
@@ -17,13 +17,15 @@ const Rovers = () => {
     }, [rovers.querys]);
 
     return (
-        <Container>
-            <Stack spacing={3}>
-                <ImageSearch rovers={rovers} />
-                <Pagination rovers={rovers} />
-                <RoversImages rovers={rovers}/>
-                <Pagination rovers={rovers} />
-            </Stack>
+        <Container fixed>
+            <Paper elevate={3} className='container_rovers'>
+                <Stack spacing={3}>
+                    <ImageSearch rovers={rovers} />
+                    <Pagination rovers={rovers} />
+                    <RoversImages rovers={rovers} />
+                    <Pagination rovers={rovers} />
+                </Stack>
+            </Paper>
         </Container>
     );
 }

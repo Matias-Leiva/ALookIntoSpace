@@ -18,7 +18,7 @@ const ImageSearch = ({ rovers }) => {
     };
 
     const handleChange = (event, key) => {
-        switch (key){
+        switch (key) {
             case 'rover':
                 dispatch(setRover(roversList.find(rover => rover.name === event.target.value)))
                 break;
@@ -26,7 +26,7 @@ const ImageSearch = ({ rovers }) => {
                 dispatch(setQuerys({ sol: event.target.value, earth_date: '' }));
                 break;
             default:
-                dispatch(setQuerys({ [key]: event.target.value}));
+                dispatch(setQuerys({ [key]: event.target.value }));
                 break;
         }
     };
@@ -36,77 +36,75 @@ const ImageSearch = ({ rovers }) => {
     };
 
     return (
-        <Paper className='box_image_search' elevation={3}>
-            <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
+        <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+                <FormControl fullWidth>
+                    <InputLabel id="select_rover">Rovers</InputLabel>
+                    <Select
+                        labelId="select_rover"
+                        id="select_rover"
+                        value={rovers.rover}
+                        label="Rover"
+                        onChange={(e) => handleChange(e, 'rover')}
+                    >
+                        {
+                            roversList.map(rover => <MenuItem key={rover.name} value={rover.name}>{rover.name}</MenuItem>)
+                        }
+                    </Select>
+                </FormControl>
+            </Grid>
+            <Grid item xs={12} md={6}>
+                {
+                    rovers.cameras &&
                     <FormControl fullWidth>
-                        <InputLabel id="select_rover">Select a Rover</InputLabel>
+                        <InputLabel id="camera">Select a Camera</InputLabel>
                         <Select
-                            labelId="select_rover"
-                            id="select_rover"
-                            value={rovers.rover}
-                            label="Rover"
-                            onChange={(e) => handleChange(e, 'rover')}
+                            labelId="camera"
+                            id="select_camera"
+                            value={rovers.querys.camera}
+                            label="Camera"
+                            onChange={(e) => handleChange(e, 'camera')}
                         >
                             {
-                                roversList.map(rover => <MenuItem key={rover.name} value={rover.name}>{rover.name}</MenuItem>)
+                                rovers.cameras.map(camera => <MenuItem key={camera} value={camera}>{camerasNames[camera]}</MenuItem>)
                             }
                         </Select>
                     </FormControl>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    {
-                        rovers.cameras &&
-                        <FormControl fullWidth>
-                            <InputLabel id="camera">Select a Camera</InputLabel>
-                            <Select
-                                labelId="camera"
-                                id="select_camera"
-                                value={rovers.querys.camera}
-                                label="Camera"
-                                onChange={(e) => handleChange(e, 'camera')}
-                            >
-                                {
-                                    rovers.cameras.map(camera => <MenuItem key={camera} value={camera}>{camerasNames[camera]}</MenuItem>)
-                                }
-                            </Select>
+                }
+            </Grid>
+            <Grid item xs={11} md={11} justifyItems='center'>
+                <Tabs value={valueTab} onChange={handleTabChange} aria-label="Search tabs">
+                    <Tab label="Earth Date" />
+                    <Tab label="Sol" />
+                </Tabs>
+                {
+                    !valueTab ?
+                        <FormControl sx={{ m: 1, width: "100%" }} variant="standard">
+                            <LocalizationProvider dateAdapter={AdapterMoment}>
+                                <DatePicker
+                                    mask="____-__-__"
+                                    orientation="portrait"
+                                    label="Earth Date"
+                                    inputFormat="YYYY-MM-DD"
+                                    value={rovers.querys.earth_date}
+                                    onChange={(e) => handleDateChange(e, 'earth_date')}
+                                    renderInput={(params) => <TextField variant="standard" {...params} />}
+                                />
+                            </LocalizationProvider>
                         </FormControl>
-                    }
-                </Grid>
-                <Grid item xs={11} md={11} justifyItems='center'>
-                    <Tabs value={valueTab} onChange={handleTabChange} aria-label="basic tabs example">
-                        <Tab label="Earth Date" />
-                        <Tab label="Sol" />
-                    </Tabs>
-                    {
-                        !valueTab ?
-                            <FormControl sx={{ m: 1, width: "100%" }} variant="standard">
-                                <LocalizationProvider dateAdapter={AdapterMoment}>
-                                    <DatePicker
-                                        mask="____-__-__"
-                                        orientation="portrait"
-                                        label="Earth Date"
-                                        inputFormat="YYYY-MM-DD"
-                                        value={rovers.querys.earth_date}
-                                        onChange={(e) => handleDateChange(e, 'earth_date')}
-                                        renderInput={(params) => <TextField variant="standard" {...params} />}
-                                    />
-                                </LocalizationProvider>
-                            </FormControl>
-                            :
-                            <TextField
-                                id="sol"
-                                label="Sol"
-                                variant="standard"
-                                type="number"
-                                value={rovers.querys.sol}
-                                onChange={(e) => handleChange(e, 'sol')}
-                                fullWidth
-                            />
-                    }
-                    </Grid>
-                </Grid>
-        </Paper>
+                        :
+                        <TextField
+                            id="sol"
+                            label="Sol"
+                            variant="standard"
+                            type="number"
+                            value={rovers.querys.sol}
+                            onChange={(e) => handleChange(e, 'sol')}
+                            fullWidth
+                        />
+                }
+            </Grid>
+        </Grid>
     )
 }
 

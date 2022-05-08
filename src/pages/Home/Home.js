@@ -4,7 +4,6 @@ import styled from '@emotion/styled';
 import Spline from '@splinetool/react-spline';
 
 function Home() {
-
   const ColorButton = styled(Button)(({ theme }) => ({
     color: '#0f0c29',
     backgroundColor: '#E47B40',
@@ -14,11 +13,23 @@ function Home() {
   }));
 
   return (
-    <Box className='box_home'>
+    <Box className="box_home">
       <div className="space_mars">
-        <Spline scene="https://prod.spline.design/3664aZhGHoIx0tYD/scene.splinecode" className="spline_mars" />
+        <Spline
+          scene="https://prod.spline.design/3664aZhGHoIx0tYD/scene.splinecode"
+          className="spline_mars"
+        />
       </div>
-      <ColorButton className="rovers_redirect" variant='outlined' onClick={() => { window.location.href = '/rovers' }} size="large">See Rovers Photos!</ColorButton>
+      <ColorButton
+        className="rovers_redirect"
+        variant="outlined"
+        onClick={() => {
+          window.location.href = '/rovers';
+        }}
+        size="large"
+      >
+        See Rovers Photos!
+      </ColorButton>
     </Box>
   );
 }

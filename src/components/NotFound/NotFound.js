@@ -1,10 +1,7 @@
-import React from 'react'
-const NotFound = ({ history }) => {
-    return (
-        <div className='not_found'>
-            
-        </div>
-    )
+import React from 'react';
+
+function NotFound({ history }) {
+  return <div className="not_found" />;
 }
 
-export default NotFound
+export default NotFound;

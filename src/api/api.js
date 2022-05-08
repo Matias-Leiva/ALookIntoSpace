@@ -8,8 +8,6 @@ const instance = axios.create({
 
 export default {
   getRoversImages(rover, querys) {
-    return instance.get(
-      `/rovers/${rover}/photos?&api_key=${apiKey}${querys}`,
-    );
+    return instance.get(`/rovers/${rover}/photos?&api_key=${apiKey}${querys}`);
   },
 };

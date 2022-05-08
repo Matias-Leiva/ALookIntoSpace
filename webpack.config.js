@@ -12,7 +12,7 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     static: {
-      directory: path.join(__dirname, "dist"),
+      directory: path.join(__dirname, 'dist'),
     },
     port: 3000,
   },
@@ -20,7 +20,7 @@ module.exports = {
     extensions: ['*', '.js', '.jsx', '.json'],
     modules: [path.resolve(process.cwd(), 'src'), 'node_modules'],
     symlinks: false,
-    cacheWithContext: false
+    cacheWithContext: false,
   },
   module: {
     rules: [
@@ -48,7 +48,7 @@ module.exports = {
       },
       {
         test: /\.(png|jp(e*)g|svg|gif)$/,
-        type: "asset/resource",
+        type: 'asset/resource',
       },
     ],
   },

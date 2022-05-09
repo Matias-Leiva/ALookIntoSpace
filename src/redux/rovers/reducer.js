@@ -61,6 +61,12 @@ function roversReducer(state = initialState, action) {
         error: action.payload,
         loading: false,
       };
+    case types.SET_FAVOURITES:
+      return {
+        ...state,
+        images: action.payload,
+        loading: false,
+      };
     default:
       return state;
   }

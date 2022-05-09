@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
-import roversReducer from './reducer';
+import roversReducer from './rovers/reducer';
 
 const reducer = {
   rovers: roversReducer,

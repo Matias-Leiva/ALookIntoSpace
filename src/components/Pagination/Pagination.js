@@ -4,7 +4,7 @@ import { Button, Grid, IconButton } from '@mui/material';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
-import { setPage } from '../../redux/actions';
+import { setPage } from '../../redux/rovers/actions';
 
 function Pagination({ rovers }) {
   const dispatch = useDispatch();

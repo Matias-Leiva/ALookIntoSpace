@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import * as types from './types';
-import nasaApi from '../api/api';
-import querysMaker from '../helpers/querysMaker';
+import nasaApi from '../../api/api';
+import querysMaker from '../../helpers/querysMaker';
 
 const setLoading = (payload) => ({ type: types.SET_LOADING, payload });
 const setError = (payload) => ({ type: types.SET_ERROR, payload });
@@ -59,3 +59,4 @@ export const getRoversImages = () => {
 export const setRover = (payload) => ({ type: types.SET_ROVER, payload });
 export const setPage = (payload) => ({ type: types.SET_PAGE, payload });
 export const setQuerys = (payload) => ({ type: types.SET_QUERYS, payload });
+export const setFavourites = (payload) => ({ type: types.SET_FAVOURITES, payload });

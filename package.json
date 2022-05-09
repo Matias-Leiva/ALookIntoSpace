@@ -9,7 +9,7 @@
     "format": "prettier --write .",
     "lint": "eslint src/",
     "lint-fix": "eslint src/ --fix",
-    "test": "jest"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watchAll" 
   },
   "keywords": [
     "NASA",
@@ -44,10 +44,13 @@
     "redux-thunk": "^2.4.1"
   },
   "devDependencies": {
+    "'": "file:testing-library/jest-dom/extend-expect'",
     "@babel/core": "^7.17.10",
     "@babel/plugin-transform-runtime": "^7.17.10",
     "@babel/preset-env": "^7.17.10",
     "@babel/preset-react": "^7.16.7",
+    "@testing-library/react": "^13.2.0",
+    "babel-jest": "^28.1.0",
     "babel-loader": "^8.2.5",
     "css-loader": "^6.7.1",
     "eslint": "^8.15.0",
@@ -58,9 +61,14 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.29.4",
     "file-loader": "^6.2.0",
+    "global-jsdom": "^8.4.0",
     "html-loader": "^3.1.0",
     "html-webpack-plugin": "^5.5.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^28.1.0",
+    "jsdom": "^19.0.0",
     "prettier": "^2.6.2",
+    "react-test-renderer": "^18.1.0",
     "style-loader": "^3.3.1",
     "url-loader": "^4.1.1",
     "webpack": "^5.72.0",
@@ -73,7 +81,11 @@
       "<rootDir>/src/__test__/setupTest.js"
     ],
     "moduleNameMapper": {
-      "\\.(styl|css)$": "<rootDir>/src/__mocks__/styleMock.js"
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/__mocks__/fileMock.js",
+      "\\.(css|less)$": "identity-obj-proxy"
+    },
+    "transform": {
+      "\\.[jt]sx?$": ["babel-jest", {"rootMode": "upward"}]
     }
   }
 }
